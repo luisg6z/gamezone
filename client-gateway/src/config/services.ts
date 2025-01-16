@@ -1,0 +1,3 @@
+export const GAMES_SERVICE = 'GAMES_SERVICE';
+
+export const REVIEWS_SERVICE = 'REVIEWS_SERVICE'
