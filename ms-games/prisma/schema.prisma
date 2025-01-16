@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Genre {
+  ACTION
+  ADVENTURE
+  ROLE_PLAYING
+  SIMULATION
+  STRATEGY
+  SPORTS
+  PUZZLE
+  SHOOTER
+  ROGUELIKE
+  PLATFORMER
+  RACING
+  FIGHTING
+  SURVIVAL
+  HORROR
+  MMORPG
+  OPEN_WORLD
+}
+
+model Games {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String
+  price       Float
+  rating      Float @default(0)
+  genre       Genre[]
+  releaseDate DateTime
+
+  isAvailable Boolean @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
