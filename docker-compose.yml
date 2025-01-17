@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+
+  client-gateway:
+    build:
+      context: ./client-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=${POSTGRES_DATABASE_URL}
+    depends_on:
+      - postgres-db
+
+  games-ms:
+    build:
+      context: ./ms-games
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=${POSTGRES_DATABASE_URL}
+    depends_on:
+      - postgres-db
+
+  reviews-ms:
+    build:
+      context: ./ms-reviews
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+
+  users-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${DOCKER_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DOCKER_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DOCKER_USER_DB}
+    ports:
+      - "5433:5432"
+
+  postgres-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${DOCKER_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DOCKER_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DOCKER_POSTGRES_DB}
+    ports:
+      - "5432:5432"
